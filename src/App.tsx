@@ -15,6 +15,7 @@ import Partners from './pages/Partners';
 import Options from './pages/Options';
 import Profile from './pages/Profile';
 import PartnerScreen from './pages/PartnersScreen';
+import PartnerProfile from './pages/PartnerProfile';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -54,6 +55,9 @@ const App: React.FC = () => (
           </Route>
           <Route exact path="/profile">
             <Profile />
+          </Route>
+          <Route exact path="/partner-profile">
+            <PartnerProfile />
           </Route>
           <Route exact path="/">
             <Redirect to="/partners" />

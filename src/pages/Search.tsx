@@ -1,6 +1,5 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import SearchCard from '../components/SearchCard/SearchCard';
-import './Tab1.css';
 
 const Tab1: React.FC = () => {
   return (

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { IonItem, IonAvatar, IonLabel, IonList, IonButton, IonListHeader } from '@ionic/react';
-import image from '../../assets/imagem_costura.jpg';
+import './ProfileCard.css';
 
 interface ContainerProps {
   name?: string;
@@ -11,30 +11,32 @@ const PartnerCard: React.FC<ContainerProps> = ({ name }) => {
   return (
     <div className="containerCard">
         <IonList>
-            <IonAvatar slot="start">
-                <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
-            </IonAvatar>
-            <IonButton expand="block"> Change Profile Picture </IonButton>
+            <div className="containerProfilePicture">
+                <IonAvatar slot="start" className="profilePicture">
+                    <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y" />
+                </IonAvatar>
+                <IonButton expand="block"> Change Profile Picture </IonButton>
+            </div>
             <IonListHeader>
                 <IonLabel>Nome de Usuario</IonLabel>
-                <IonButton expand="block"> edit </IonButton>
+                <IonButton expand="block" > edit </IonButton>
             </IonListHeader>
             <IonItem>
-                <IonLabel>Nome de Usuario</IonLabel>
+                <IonLabel>Fulano Beltrano</IonLabel>
             </IonItem>
             <IonListHeader>
                 <IonLabel>Aniversário</IonLabel>
                 <IonButton expand="block"> edit </IonButton>
             </IonListHeader>
             <IonItem>
-                <IonLabel>dd/mm/aa</IonLabel>
+                <IonLabel>13/01/1999</IonLabel>
             </IonItem>
             <IonListHeader>
                 <IonLabel>Endereço</IonLabel>
                 <IonButton expand="block"> edit </IonButton>
             </IonListHeader>
             <IonItem>
-                <IonLabel>Address</IonLabel>
+                <IonLabel>Rua Alencar Costa, 958, apto. 21</IonLabel>
             </IonItem>
         </IonList>
     </div>

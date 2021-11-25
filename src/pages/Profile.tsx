@@ -1,5 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonSearchbar } from '@ionic/react';
-import { useState } from 'react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import ProfileCard from '../components/ProfileCard/ProfileCard';
 
 const ProfilePage: React.FC = () => {
