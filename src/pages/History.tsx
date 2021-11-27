@@ -1,19 +1,19 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import PartnerCard from '../components/PartnersCard/PartnersCard';
+import HistoryCard from '../components/HistoryCard/HistoryCard';
 
-const Partners: React.FC = () => {
+const History: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Partners</IonTitle>
+          <IonTitle>History</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        <PartnerCard/>
+        <HistoryCard/>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Partners;
+export default History;

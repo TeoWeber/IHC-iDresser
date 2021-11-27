@@ -1,49 +1,82 @@
-import { IonItem, IonIcon, IonLabel, IonThumbnail, IonImg, IonList, IonListHeader, IonButton,
-         IonCard, IonCardContent, IonCardHeader, IonContent, IonCardSubtitle, IonCardTitle, IonCheckbox, IonInput} from '@ionic/react';
-import { chevronForwardOutline } from 'ionicons/icons';
+import { useContext, useState } from 'react';
+import { IonItem, IonLabel, IonList, IonButton,
+         IonCard, IonCardContent, IonCardHeader, IonContent, IonCardSubtitle, IonCardTitle, IonCheckbox } from '@ionic/react';
 import image from '../../assets/imagem_costura.jpg';
-import map from '../../assets/map.jpeg';
+import { Partners } from '../PartnersCard/PartnersHardCode';
+import { Order, UserContext } from "../../App";
 
 
 interface ContainerProps {
-  name?: string;
+  id: number;
 }
 
-const PartnersScreen: React.FC<ContainerProps> = ({ name }) => {
+const PartnersScreen: React.FC<ContainerProps> = ({ id }) => {
+  const partner = Partners[id]
+
+  const [totalPrice, setTotalPrice] = useState(0)
+
+  const handleChange = (isChecked: boolean, price: number) => {
+    if ( isChecked ) {
+      setTotalPrice(totalPrice + price)
+    }
+    else {
+      if (totalPrice - price < 0)
+        setTotalPrice(0)
+      else 
+        setTotalPrice(totalPrice - price)
+    }
+  }
+
+  const user = useContext(UserContext);
+
+  const handleClick = () => {
+      const order:Order = {
+          service: partner.name,
+          price: totalPrice
+      }
+      user.history.push(order)
+      user.setHistory([... user.history])
+
+      setTotalPrice(0)
+  }
+
   return (
     <div className="Partners-info">
         <IonContent fullscreen>
           <IonCard>
             <img src={image} />
             <IonCardHeader>
-              <IonCardTitle>Nome Parceiro</IonCardTitle>
+              <IonCardTitle>{partner.name}</IonCardTitle>
             </IonCardHeader>
             <IonCardContent>
                 <IonCardSubtitle>
-                  <IonLabel>Tipo de Serviço - Preço - Quantidade</IonLabel>
+                  <IonLabel>Tipo de Serviço - Preço</IonLabel>
                 </IonCardSubtitle>
                 <IonList>
+                  {partner.services.map((p)=>{
+                    return (
+                      <IonItem>
+                        <IonCheckbox
+                          slot="start" 
+                          onIonChange={e => handleChange(e.detail.checked, p.price)} 
+                        />
+                        <IonLabel>{p.service} - ${p.price},00</IonLabel>
+                      </IonItem>
+                    )
+                  })}
                   <IonItem>
-                    <IonLabel>Custura Jeans - R$ 40,00/ Peça</IonLabel>
-                    <IonCheckbox disabled slot="start"></IonCheckbox>
-                    <IonInput placeholder="placeholder" type="number"></IonInput>
-                  </IonItem>
-                  <IonItem>
-                    <IonLabel>Custura Algodão - R$ 30,00/ Peça</IonLabel>
-                    <IonCheckbox disabled slot="start"></IonCheckbox>
-                    <IonInput placeholder="placeholder" type="number"></IonInput>
-                  </IonItem>
-                  <IonItem>
-                    <IonLabel>Lavagem - R$ 10,00/ Peça (minimo 6 peças)</IonLabel>
-                    <IonCheckbox disabled slot="start"></IonCheckbox>
-                    <IonInput placeholder="placeholder" type="number"></IonInput>
+                    <IonLabel>Total: ${totalPrice},00</IonLabel>
                   </IonItem>
                   
                   <IonItem>
-                    <IonButton color="success">Solicitar Serviços</IonButton>
-                  </IonItem>
-                  <IonItem>
-                    <IonLabel>Total:</IonLabel>
+                    <IonButton
+                      disabled={totalPrice ? false : true}
+                      color="success" 
+                      routerLink="/partners" 
+                      onClick={() => handleClick()}
+                    >
+                      Finish Order
+                    </IonButton>
                   </IonItem>
                 </IonList>
             </IonCardContent>

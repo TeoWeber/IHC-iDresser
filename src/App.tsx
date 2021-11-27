@@ -1,21 +1,11 @@
 import { Redirect, Route } from 'react-router-dom';
 import {
-  IonApp,
-  IonIcon,
-  IonLabel,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
+  IonApp
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { storefrontOutline, optionsOutline, searchOutline } from 'ionicons/icons';
-import Search from './pages/Search';
-import Partners from './pages/Partners';
-import Options from './pages/Options';
-import Profile from './pages/Profile';
-import PartnerScreen from './pages/PartnersScreen';
-import PartnerProfile from './pages/PartnerProfile';
+import { useState, useContext, createContext } from 'react';
+import Login from './pages/Login';
+import MainTabs from './MainTabs';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,50 +26,48 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
+export interface Order {
+  service: string;
+  price: number;
+}
+
+interface IUserManager {
+  logged: Function;
+  setHistory: Function;
+  history: Order[];
+}
+
+const user: IUserManager = {
+  logged: () => {},
+  setHistory: () => {},
+  history: []
+};
+
+export const UserContext = createContext<IUserManager>(user);
+
+const IonicApp: React.FC = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [history, setHistory] = useState([]);
+  const user = useContext(UserContext);
+
+  user.logged = setIsLoggedIn;
+  user.setHistory = setHistory;
+  user.history = history;
+
+  return (
+    <IonApp>
+      <IonReactRouter>
+        <Route path="/login" component={Login} exact />
+        <Route path="/" component={isLoggedIn ? MainTabs : Login} />
+      </IonReactRouter>
+    </IonApp>
+  );
+};
+
 const App: React.FC = () => (
-  <IonApp>
-    <IonReactRouter>
-      <IonTabs>
-        <IonRouterOutlet>
-          <Route exact path="/search">
-            <Search />
-          </Route>
-          <Route exact path="/partners">
-            <Partners />
-          </Route>
-          <Route exact path="/options">
-            <Options />
-          </Route>
-          <Route exact path="/partners-screen">
-            <PartnerScreen />
-          </Route>
-          <Route exact path="/profile">
-            <Profile />
-          </Route>
-          <Route exact path="/partner-profile">
-            <PartnerProfile />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/partners" />
-          </Route>
-        </IonRouterOutlet>
-        <IonTabBar slot="bottom">
-          <IonTabButton tab="tab1" href="/search">
-            <IonIcon icon={searchOutline} />
-            <IonLabel>Search</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab2" href="/partners">
-            <IonIcon icon={storefrontOutline} />
-            <IonLabel>Partners</IonLabel>
-          </IonTabButton>
-          <IonTabButton tab="tab3" href="/options">
-            <IonIcon icon={optionsOutline} />
-            <IonLabel>Options</IonLabel>
-          </IonTabButton>
-        </IonTabBar>
-      </IonTabs>
-    </IonReactRouter>
-  </IonApp>
+  <UserContext.Provider value={user}>
+    <IonicApp />
+  </UserContext.Provider>
 );
 
 export default App;
