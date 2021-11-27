@@ -1,0 +1,7 @@
+{
+  "name": "iDresser",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}

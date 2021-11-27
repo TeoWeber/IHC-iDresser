@@ -1,0 +1,11 @@
+.containerProfilePicture {
+    align-items: center;
+    margin: 5% 0;
+    padding: 0 10%;
+}
+
+.profilePicture {
+    margin: 0 auto 5%;
+    height: 150px;
+    width: 150px;
+}
